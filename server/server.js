@@ -22,13 +22,13 @@ const allowedOrigins = ['http://localhost:5173','https://ecommerce-webapp-tp34.v
 await connectDB(process.env.MONGODB_URI);
 await connectCloudinary();
 
+app.post("/stripe", express.raw({ type: "application/json" }), stripeWebhooks);
+
 //middleware configaration
 app.use(cors({
     credentials: true,
     origin: allowedOrigins
 }));
-
-app.post("/stripe", express.raw({ type: "application/json" }), stripeWebhooks);
 
 app.use(express.json());
 app.use(cookieParser());
