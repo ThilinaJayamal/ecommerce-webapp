@@ -16,7 +16,7 @@ import { stripeWebhooks } from "./controllers/orderController.js";
 
 const app = express();
 
-const allowedOrigins = ['http://localhost:5173'];
+const allowedOrigins = ['http://localhost:5173','https://ecommerce-webapp-tp34.vercel.app'];
 
 //create DB connection
 await connectDB(process.env.MONGODB_URI);
@@ -28,8 +28,11 @@ app.use(cors({
     origin: allowedOrigins
 }));
 
+app.post("/stripe", express.raw({ type: "application/json" }), stripeWebhooks);
+
 app.use(express.json());
 app.use(cookieParser());
+
 app.use("/api/user", userRoute);
 app.use("/api/seller", sellerRoute);
 app.use("/api/product", productRoute);
@@ -37,9 +40,6 @@ app.use("/api/cart", cartRoute);
 app.use("/api/address", addressRoute);
 app.use("/api/order", orderRoute);
 
-app.use(authUser)
-
-app.post("/stripe",express.raw({type:"application/json"}),stripeWebhooks);
 
 const port = process.env.PORT || 3000;
 

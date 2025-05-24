@@ -78,13 +78,15 @@ function Cart() {
                 })
 
                 if (data.success) {
-                    setCartItems({});
                     window.location.replace(data.url)
                 }
             }
 
         } catch (error) {
             toast.error(error.response.data.message);
+        }
+        finally {
+            setCartItems({});
         }
 
     }
